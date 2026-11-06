@@ -13,6 +13,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _obscureText = true;
 
+  static const String _validEmail = 'admin@husc.edu.vn';
+  static const String _validPassword = '123456';
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -25,9 +28,22 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
-    if (_formKey.currentState!.validate()) {
+    if (!_formKey.currentState!.validate()) return;
+
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    if (email == _validEmail && password == _validPassword) {
       _goToSettings();
+      return;
     }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Email hoặc mật khẩu không đúng.'),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
 
   @override
@@ -125,7 +141,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/forgot-password');
+                    },
                     child: const Text('Quên mật khẩu?',
                         style: TextStyle(color: Colors.blue)),
                   ),
@@ -167,7 +185,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: 48,
                   child: OutlinedButton.icon(
-                    onPressed: _goToSettings,
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Vui lòng đăng nhập bằng email admin@husc.edu.vn',
+                          ),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                    },
                     icon: const Icon(Icons.g_mobiledata,
                         size: 28, color: Colors.red),
                     label: const Text('Tiếp tục với Google',

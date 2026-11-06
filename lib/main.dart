@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'forgot_password_screen.dart';
 import 'login.dart';
 import 'register_screen.dart';
 import 'settings_screen.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/settings': (context) => const SettingsScreen(),
       },
     );
