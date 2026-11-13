@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'cart_screen.dart';
 import 'forgot_password_screen.dart';
 import 'login.dart';
+import 'product_detail_screen.dart';
+import 'product_list_screen.dart';
+import 'product_model.dart';
 import 'register_screen.dart';
 import 'settings_screen.dart';
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tên ứng dụng',
+      title: 'ShopEasy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
@@ -44,17 +48,24 @@ class MyApp extends StatelessWidget {
                 ],
               ),
               child: MediaQuery(
-                data: MediaQuery.of(context).copyWith(
-                  size: const Size(_phoneWidth, _phoneHeight),
-                ),
+                data: MediaQuery.of(context)
+                    .copyWith(size: const Size(_phoneWidth, _phoneHeight)),
                 child: child ?? const SizedBox.shrink(),
               ),
             ),
           ),
         );
       },
-      initialRoute: '/login',
+      initialRoute: '/products',
       routes: {
+        '/products': (context) => const ProductListScreen(),
+        '/product-detail': (context) {
+          final product =
+              ModalRoute.of(context)?.settings.arguments as Product? ??
+              sampleProducts.first;
+          return ProductDetailScreen(product: product);
+        },
+        '/cart': (context) => const CartScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
